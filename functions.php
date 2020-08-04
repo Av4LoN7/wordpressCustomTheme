@@ -2,6 +2,7 @@
 
 function avalontheme_support() {
 	add_theme_support("title-tag");
+	add_theme_support('post-thumbnails');
 }
 
 function avalontheme_register_assets() {
@@ -14,5 +15,10 @@ function avalontheme_register_assets() {
 	wp_enqueue_script("bootstrapjs");
 }
 
+function avalontheme_document_title_separator() {
+	return '|';
+}
+
 add_action('after_setup_theme', 'avalontheme_support');
 add_action('wp_enqueue_scripts', 'avalontheme_register_assets');
+add_filter('document_title_separator', 'avalontheme_document_title_separator');
