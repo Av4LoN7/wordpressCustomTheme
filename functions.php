@@ -3,6 +3,12 @@
 function avalontheme_support() {
 	add_theme_support("title-tag");
 	add_theme_support('post-thumbnails');
+	add_theme_support('menus');
+	register_nav_menus(
+	[
+		'header' => 'Haut de page',
+		'footer' => 'Pied de page'
+	]);
 }
 
 function avalontheme_register_assets() {
@@ -19,6 +25,16 @@ function avalontheme_document_title_separator() {
 	return '|';
 }
 
+function avalontheme_menu_class(array $classes) : array {
+	$classes[] = 'nav-item';
+	return $classes;
+}
+function avalontheme_menu_link_class(array $classes) : array {
+	$classes['class'] = 'nav-link';
+	return $classes;
+}
 add_action('after_setup_theme', 'avalontheme_support');
 add_action('wp_enqueue_scripts', 'avalontheme_register_assets');
 add_filter('document_title_separator', 'avalontheme_document_title_separator');
+add_filter('nav_menu_css_class', 'avalontheme_menu_class');
+add_filter('nav_menu_link_attributes', 'avalontheme_menu_link_class');

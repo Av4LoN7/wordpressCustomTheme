@@ -1,5 +1,4 @@
 <?php get_header(); ?>
-<div class="jumbotron mt-2"><h1 style="text-align: center">Homemade theme creation</h1></div>
 <?php if ( have_posts() ): ?>
     <div class="row">
 	<?php while ( have_posts() ): the_post() ?>
