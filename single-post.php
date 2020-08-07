@@ -5,5 +5,6 @@
     </p>
     <h1><?php the_title(); ?></h1>
     <p><?php the_content(); ?> </p>
-<?php endwhile; endif; ?>
+<?php endwhile; ?>
+<?php endif; ?>
 <?php get_footer(); ?>

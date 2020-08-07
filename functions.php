@@ -32,6 +32,25 @@ function avalontheme_menu_link_class(array $classes) : array {
 	$classes['class'] = 'nav-link';
 	return $classes;
 }
+function avalontheme_pagination_post() : void {
+	$pages = paginate_links(['type' => 'array']);
+	if(!is_null($pages)) {
+		echo '<nav aria-label="Navigation" class="mt-4">';
+		echo '<ul class="pagination">';
+		foreach ($pages as  $lien) {
+			$class = "page-item";
+			if(strpos($lien, 'current')) {
+				$class .= " active";
+			}
+			echo '<li class="'.$class.'">';
+			echo str_replace("page-numbers", "page-link", $lien);
+			echo '</li>';
+		}
+		echo '</ul>';
+		echo '</nav>';
+	}
+}
+
 add_action('after_setup_theme', 'avalontheme_support');
 add_action('wp_enqueue_scripts', 'avalontheme_register_assets');
 add_filter('document_title_separator', 'avalontheme_document_title_separator');
