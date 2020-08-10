@@ -8,6 +8,7 @@ function avalontheme_support() {
 		'header' => 'Haut de page',
 		'footer' => 'Pied de page'
 	]);
+	add_image_size('custom-card-header', 350, 215, true);
 }
 
 function avalontheme_register_assets() {

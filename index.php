@@ -4,7 +4,7 @@
 		<?php while ( have_posts() ): the_post() ?>
             <div class="col-sm-4">
                 <div class="card">
-                <?php the_post_thumbnail( 'meduim', [
+                <?php the_post_thumbnail( 'custom-card-header', [
                     'class' => 'card-img-top',
                     'alt'   => '',
                     'style' => 'height:auto'
