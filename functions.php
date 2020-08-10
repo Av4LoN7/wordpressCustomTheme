@@ -52,8 +52,22 @@ function avalontheme_pagination_post() : void {
 	}
 }
 
+function avalontheme_meta_box() {
+	add_meta_box('avalontheme_sponso', 'sponsoring', 'avalontheme_sponso_box', 'post', 'side');
+}
+
+function avalontheme_sponso_box() {
+	echo <<<HTML
+		<input type="hidden" value="0" name="article_sponso">
+		<input type="checkbox" value="1" name="article_sponso">
+<label for="avalontheme_sponso"> Cet article est sponsorisé ?</label>
+
+HTML;
+}
+
 add_action('after_setup_theme', 'avalontheme_support');
 add_action('wp_enqueue_scripts', 'avalontheme_register_assets');
+add_action('add_meta_boxes', 'avalontheme_meta_box');
 add_filter('document_title_separator', 'avalontheme_document_title_separator');
 add_filter('nav_menu_css_class', 'avalontheme_menu_class');
 add_filter('nav_menu_link_attributes', 'avalontheme_menu_link_class');
