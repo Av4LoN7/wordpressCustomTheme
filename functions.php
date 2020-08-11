@@ -59,36 +59,11 @@ function avalontheme_pagination_post(): void {
 	}
 }
 
-function avalontheme_meta_box() {
-	add_meta_box( 'avalontheme_sponso', 'sponsoring', 'avalontheme_sponso_box', 'post', 'side' );
-}
-
-function avalontheme_sponso_box( $post ) {
-	?>
-    <input type="hidden" value="0" name="article_sponso">
-    <input type="checkbox" value="1" name="article_sponso"
-		<?php if ( get_post_meta( $post->ID, 'article_sponso', true ) === '1' ): ?>
-            checked
-		<?php endif; ?>
-    >
-    <label for="avalontheme_sponso"> Cet article est sponsorisé ?</label>
-	<?php
-}
-
-function avalontheme_save_meta_sponso( int $post_id ) {
-	if ( array_key_exists( 'article_sponso', $_POST ) ) {
-		if ( $_POST['article_sponso'] === '0' ) {
-			delete_post_meta( $post_id, 'article_sponso' );
-		} else {
-			update_post_meta( $post_id, 'article_sponso', 1 );
-		}
-	}
-}
-
 add_action( 'after_setup_theme', 'avalontheme_support' );
 add_action( 'wp_enqueue_scripts', 'avalontheme_register_assets' );
-add_action( 'add_meta_boxes', 'avalontheme_meta_box' );
-add_action( 'save_post', 'avalontheme_save_meta_sponso' );
 add_filter( 'document_title_separator', 'avalontheme_document_title_separator' );
 add_filter( 'nav_menu_css_class', 'avalontheme_menu_class' );
 add_filter( 'nav_menu_link_attributes', 'avalontheme_menu_link_class' );
+
+require 'metaboxes/Sponso.php';
+Sponso::register();
