@@ -65,5 +65,5 @@ add_filter( 'document_title_separator', 'avalontheme_document_title_separator' )
 add_filter( 'nav_menu_css_class', 'avalontheme_menu_class' );
 add_filter( 'nav_menu_link_attributes', 'avalontheme_menu_link_class' );
 
-require 'metaboxes/Sponso.php';
+require_once('metaboxes/Sponso.php');
 Sponso::register();
