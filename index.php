@@ -1,27 +1,24 @@
 <?php get_header(); ?>
 <?php if ( have_posts() ): ?>
+    <h1><?= esc_html( get_queried_object()->name ); ?></h1>
+	<?php $terms = get_terms( 'sport' );
+	if ( ! empty( $terms ) ) {
+		?>
+        <ul class="nav nav-pills my-4">
+			<?php foreach ( $terms as $sport ): ?>
+                <li class="nav-item">
+                    <a class="nav-link <?= is_tax( "sport", $sport ) ? "active" : " "; ?>"
+                       href="<?= get_term_link( $sport ); ?>"> <?= $sport->name; ?></a>
+                </li>
+			<?php endforeach; ?>
+        </ul>
+		<?php
+	}
+	?>
     <div class="row">
 		<?php while ( have_posts() ): the_post() ?>
             <div class="col-sm-4">
-                <div class="card">
-                <?php the_post_thumbnail( 'custom-card-header', [
-                    'class' => 'card-img-top',
-                    'alt'   => '',
-                    'style' => 'height:auto'
-                ] ); ?>
-                <div class="card-body">
-                    <h5 class="card-title">
-                        <?php the_title(); ?>
-                    </h5>
-                    <h6 class="card-subtitle mb-2 text-muted">
-                        Author : <?php the_author(); ?>
-                    </h6>
-                    <p class="card-text">
-                        <?php the_excerpt(); ?>
-                    </p>
-                    <a href="<?php the_permalink(); ?>" class="card-link">Voir l'article</a>
-                </div>
-                </div>
+				<?php get_template_part( 'parts/card' ); ?>
             </div>
 		<?php endwhile; ?>
     </div>

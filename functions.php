@@ -59,11 +59,36 @@ function avalontheme_pagination_post(): void {
 	}
 }
 
+function avalontheme_sport_taxonomy() {
+	$labels = [
+		'name'          => 'Sport' ,
+		'singular_name' => 'Sport' ,
+		'search_items'  => 'Rechercher un sport' ,
+		'all_items'     => 'Tout les sports' ,
+		'edit_item'     => 'modifier le sport' ,
+		'update_item'   => 'mettre à jours le sport',
+		'add_new_item'  => 'Ajouter un nouveau sport',
+		'new_item_name' => 'Ajouter un nouveau sport',
+		'menu_name'     => 'Sports',
+	];
+	$args   = [
+		'show_in_rest' => true,
+		'hierarchical'      => true, // make it hierarchical (like categories)
+		'labels'            => $labels,
+		'show_ui'           => true,
+		'show_admin_column' => true,
+		'query_var'         => true,
+		'rewrite'           => [ 'slug' => 'sport' ],
+	];
+	register_taxonomy( 'sport', 'post', $args );
+}
+
+add_action( 'init', 'avalontheme_sport_taxonomy' );
 add_action( 'after_setup_theme', 'avalontheme_support' );
 add_action( 'wp_enqueue_scripts', 'avalontheme_register_assets' );
 add_filter( 'document_title_separator', 'avalontheme_document_title_separator' );
 add_filter( 'nav_menu_css_class', 'avalontheme_menu_class' );
 add_filter( 'nav_menu_link_attributes', 'avalontheme_menu_link_class' );
 
-require_once('metaboxes/Sponso.php');
+require_once( 'metaboxes/Sponso.php' );
 Sponso::register();
