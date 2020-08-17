@@ -59,7 +59,7 @@ function avalontheme_pagination_post(): void {
 	}
 }
 
-function avalontheme_sport_taxonomy() {
+function avalontheme_init() {
 	$labels = [
 		'name'          => 'Sport' ,
 		'singular_name' => 'Sport' ,
@@ -81,9 +81,18 @@ function avalontheme_sport_taxonomy() {
 		'rewrite'           => [ 'slug' => 'sport' ],
 	];
 	register_taxonomy( 'sport', 'post', $args );
+	register_post_type('bien', [
+		'label' => 'Bien Immobillier',
+		'public' => true,
+		'show_in_rest' => true,
+		'menu_position' => 3,
+		'menu_icon' => 'dashicons-building',
+		'supports' => ['title', 'editor', 'thumbnail'],
+		'has_archive' => true
+	]);
 }
 
-add_action( 'init', 'avalontheme_sport_taxonomy' );
+add_action( 'init', 'avalontheme_init' );
 add_action( 'after_setup_theme', 'avalontheme_support' );
 add_action( 'wp_enqueue_scripts', 'avalontheme_register_assets' );
 add_filter( 'document_title_separator', 'avalontheme_document_title_separator' );

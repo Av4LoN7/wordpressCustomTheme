@@ -8,7 +8,6 @@
         <h5 class="card-title">
 			<?php the_title(); ?>
         </h5>
-        <h6>Catégorie :</h6>
 		<?php
 		$taxo = get_the_term_list(
 			get_the_ID(),
