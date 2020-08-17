@@ -10,15 +10,16 @@
         </h5>
         <h6>Catégorie :</h6>
 		<?php
-		echo get_the_term_list(
+		$taxo = get_the_term_list(
 			get_the_ID(),
 			'sport',
 			'<ul class="my-2"><li>',
 			'</li><li>',
 			'</li></ul>'
 		);
+		echo is_wp_error($taxo) ? $taxo->get_error_message() : $taxo;
 		?>
-        <h6 class="card-subtitle mb-2 text-muted">
+        <h6 class="card-subtitle my-2 text-muted">
             Author : <?php the_author(); ?>
         </h6>
         <p class="card-text">
