@@ -100,4 +100,6 @@ add_filter( 'nav_menu_css_class', 'avalontheme_menu_class' );
 add_filter( 'nav_menu_link_attributes', 'avalontheme_menu_link_class' );
 
 require_once( 'metaboxes/Sponso.php' );
+require_once('options/agence.php');
 Sponso::register();
+AgenceMenu::register();
