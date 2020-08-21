@@ -8,7 +8,9 @@
 		]);
 	?>
 	<?php wp_footer(); ?>
-    Horaires d'ouverture : <?= get_option('agence_horaire'); ?>
+    <div>
+        Horaires d'ouverture : <?= get_option('agence_horaire'); ?>
+    </div>
 </footer>
 </body>
 </html>
