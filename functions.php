@@ -1,5 +1,5 @@
 <?php
-
+// unlock theme support functionality
 function avalontheme_support() {
 	add_theme_support( "title-tag" );
 	add_theme_support( 'post-thumbnails' );
@@ -61,18 +61,18 @@ function avalontheme_pagination_post(): void {
 
 function avalontheme_init() {
 	$labels = [
-		'name'          => 'Sport' ,
-		'singular_name' => 'Sport' ,
-		'search_items'  => 'Rechercher un sport' ,
-		'all_items'     => 'Tout les sports' ,
-		'edit_item'     => 'modifier le sport' ,
+		'name'          => 'Sport',
+		'singular_name' => 'Sport',
+		'search_items'  => 'Rechercher un sport',
+		'all_items'     => 'Tout les sports',
+		'edit_item'     => 'modifier le sport',
 		'update_item'   => 'mettre à jours le sport',
 		'add_new_item'  => 'Ajouter un nouveau sport',
 		'new_item_name' => 'Ajouter un nouveau sport',
 		'menu_name'     => 'Sports',
 	];
 	$args   = [
-		'show_in_rest' => true,
+		'show_in_rest'      => true,
 		'hierarchical'      => true, // make it hierarchical (like categories)
 		'labels'            => $labels,
 		'show_ui'           => true,
@@ -80,16 +80,19 @@ function avalontheme_init() {
 		'query_var'         => true,
 		'rewrite'           => [ 'slug' => 'sport' ],
 	];
+	// add taxonomy
 	register_taxonomy( 'sport', 'post', $args );
-	register_post_type('bien', [
-		'label' => 'Bien Immobillier',
-		'public' => true,
-		'show_in_rest' => true,
+
+	// add custom post type
+	register_post_type( 'bien', [
+		'label'         => 'Bien Immobillier',
+		'public'        => true,
+		'show_in_rest'  => true,
 		'menu_position' => 3,
-		'menu_icon' => 'dashicons-building',
-		'supports' => ['title', 'editor', 'thumbnail'],
-		'has_archive' => true
-	]);
+		'menu_icon'     => 'dashicons-building',
+		'supports'      => [ 'title', 'editor', 'thumbnail' ],
+		'has_archive'   => true
+	] );
 }
 
 add_action( 'init', 'avalontheme_init' );
@@ -100,6 +103,47 @@ add_filter( 'nav_menu_css_class', 'avalontheme_menu_class' );
 add_filter( 'nav_menu_link_attributes', 'avalontheme_menu_link_class' );
 
 require_once( 'metaboxes/Sponso.php' );
-require_once('options/agence.php');
+require_once( 'options/agence.php' );
 Sponso::register();
 AgenceMenu::register();
+
+// modify custom post type display in admin + adding thumbnail column
+add_filter( 'manage_bien_posts_columns', function ( $column ) {
+	return [
+		'cb'        => $column['cb'],
+		'thumbnail' => 'miniature', // this
+		'title'     => $column['title'],
+		'date'      => $column['date']
+	];
+} );
+
+// display the thumbnail inside admin bar display for the custom post type 'bien'
+add_filter( 'manage_bien_posts_custom_column', function ( $columnName, $postId ) {
+	if ( $columnName === 'thumbnail' ) {
+		the_post_thumbnail( 'post-thumbnails', $postId );
+	}
+}, 10, 2 ); // 10 for priority, 2 for number of parameters needed by the method
+
+// inject css for admin
+add_action( 'admin_enqueue_scripts', function () {
+	wp_enqueue_style( 'avalontheme_admin_style', get_template_directory_uri() . "/assets/admin.css" );
+} );
+
+// modify display of article in admin view + add sponsoring column
+add_action( 'manage_post_posts_columns', function ( $column ) {
+	$newColumn = null;
+	foreach ( $column as $k => $v ) {
+		if ( $k === 'tags' ) {
+			$newColumn['sponsoring'] = "Sponsorisé";
+		}
+		$newColumn[ $k ] = $v;
+	}
+
+	return $newColumn;
+} );
+// display value of the meta in admin view
+add_filter( 'manage_post_posts_custom_column', function ( $columnName, $postId ) {
+	if ( $columnName === 'sponsoring' ) {
+		echo get_post_meta( $postId, 'article_sponso', true ) === '1' ? "Oui" : "Non";
+	}
+}, 10, 2 ); // 10 for priority, 2 for number of parameters needed by the method
