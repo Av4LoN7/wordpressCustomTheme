@@ -147,3 +147,30 @@ add_filter( 'manage_post_posts_custom_column', function ( $columnName, $postId )
 		echo get_post_meta( $postId, 'article_sponso', true ) === '1' ? "Oui" : "Non";
 	}
 }, 10, 2 ); // 10 for priority, 2 for number of parameters needed by the method
+
+// alterate search filter with a new parameter to display sponsoring article only
+// alterate wp_query object before action with pre_get_posts
+function avalontheme_pre_get_post($query) {
+	if(is_admin() || !is_search() || !is_main_query()) {
+		return;
+	}
+	// sponso is a custom parameter added with query_vars filter
+	if(get_query_var('sponso') === '1') {
+		// extract and modify meta_query parameters
+		$meta_query = $query->get('meta_query', []);
+		$meta_query[] = [
+			'key' => Sponso::META_KEY,
+			'compare' => 'EXISTS',
+		];
+		$query->set('meta_query', $meta_query);
+	}
+}
+
+// adding custom parameter name into query object
+function avalontheme_query_vars(array $param) : array {
+	$param[] = 'sponso';
+	return $param;
+}
+
+add_action('pre_get_posts', 'avalontheme_pre_get_post');
+add_filter('query_vars', 'avalontheme_query_vars');

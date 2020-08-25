@@ -15,7 +15,7 @@
 <div class="row">
 	<?php
 	// display related articles with the same taxonomy/terms using wp_query object
-	// used array_map callback to extract the term_id needed from the wp_term object
+	// used array_map callback to extract the term_id needed in tax_query parameters from the wp_term object
 	$sportsID = array_map( function ( $callback ) {
 		return $callback->term_id;
 	}, get_the_terms( get_post(), 'sport' ) );
